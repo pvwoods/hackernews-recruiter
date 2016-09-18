@@ -1,4 +1,4 @@
-from base import *
+from recruiter.parser.base import *
 
 
 class Google(Base):

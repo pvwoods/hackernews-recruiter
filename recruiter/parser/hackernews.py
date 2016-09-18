@@ -1,5 +1,7 @@
-from base import *
+from recruiter.parser.base import *
 from recruiter.candidate import Candidate
+import six
+from six.moves.html_parser import HTMLParser
 
 
 class Hackernews(Base):
@@ -65,8 +67,7 @@ class Hackernews(Base):
     def isSupportedMeta(cls, meta):
         if len(meta) < 4:
             return False
-
-        for name, aliases in cls.getNormalizedMetas().iteritems():
+        for name, aliases in iter(cls.getNormalizedMetas().items()):
             if meta == name or meta in aliases:
                 return True
 
@@ -74,7 +75,7 @@ class Hackernews(Base):
 
     @classmethod
     def getNormalizedMeta(cls, meta):
-        for name, aliases in cls.getNormalizedMetas().iteritems():
+        for name, aliases in iter(cls.getNormalizedMetas().items()):
             if meta == name or meta in aliases:
                 return name
 
@@ -101,7 +102,7 @@ class Hackernews(Base):
             return False
 
         # Normalize the string and convert any UTF8 characters to html entities.
-        name = meta[0].strip().lower().encode("ascii", "xmlcharrefreplace")
+        name = meta[0].strip().lower().encode("ascii", "xmlcharrefreplace").decode("utf-8")
 
         if not cls.isSupportedMeta(name):
             return False
@@ -121,12 +122,12 @@ class Hackernews(Base):
             return False
 
         matches = True
-        for filter_meta, filter_values in filters.iteritems():
+        for filter_meta, filter_values in iter(filters.items()):
             if filter_meta not in candidate.keys():
                 matches = False
                 break
 
-            filter_values = filter_values.split() if isinstance(filter_values, basestring) else filter_values
+            filter_values = filter_values.split() if isinstance(filter_values, six.string_types) else filter_values
 
             for filter_value in filter_values:
                 # Candidate must match one or more values for a given filter (but not all - OR not AND).
