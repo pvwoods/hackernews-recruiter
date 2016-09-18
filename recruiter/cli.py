@@ -1,11 +1,11 @@
 import json
 
 from argparse import ArgumentParser
-from candidate import Candidate
+from recruiter.candidate import Candidate
 from datetime import datetime
-from parser.google import Google as GoogleParser
-from parser.hackernews import Hackernews as HackernewsParser
-from scraper import Scraper
+from recruiter.parser.google import Google as GoogleParser
+from recruiter.parser.hackernews import Hackernews as HackernewsParser
+from recruiter.scraper import Scraper
 
 
 class CLI(object):
@@ -32,16 +32,17 @@ class CLI(object):
         url = args.source
         url = cls.getDefaultSourceUrl() if url is None else url
 
-        print "\nParsing Source: " + url
+        print("\nParsing Source: %s\n" % url)
 
         html = Scraper(url).get()
         data = HackernewsParser(html, filters)
         title = data.getTitle()
         candidates = data.getCandidates()
 
-        print "\n" + json.dumps(candidates, indent=4, sort_keys=True)
-        print "\nParsed Source: " + title
-        print "\nTotal Matches Found: " + str(len(candidates))
+        candidate_json_string = json.dumps(candidates, indent=4, sort_keys=True)
+
+        print("Parsed Source:\n%s\n" % candidate_json_string)
+        print("Total Matches Found: %s" % len(candidates))
 
     @staticmethod
     def getDefaultSourceUrl():

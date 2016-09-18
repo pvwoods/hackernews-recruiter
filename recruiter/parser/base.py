@@ -1,5 +1,4 @@
-from BeautifulSoup import BeautifulSoup
-from HTMLParser import HTMLParser
+from bs4 import BeautifulSoup
 
 
 class Base(object):
@@ -8,6 +7,6 @@ class Base(object):
     params = {}
 
     def __init__(self, text, params={}):
-        self.dom = BeautifulSoup(text)
+        self.dom = BeautifulSoup(text, 'html.parser')
         self.text = text
         self.params = params
