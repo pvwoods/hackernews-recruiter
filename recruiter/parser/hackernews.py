@@ -1,8 +1,7 @@
-from recruiter.parser.base import *
-from recruiter.candidate import Candidate
 import six
 from six.moves.html_parser import HTMLParser
-
+from recruiter.parser.base import *
+from recruiter.candidate import Candidate
 
 class Hackernews(Base):
     def getTitle(self):
