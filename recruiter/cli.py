@@ -31,17 +31,14 @@ class CLI(object):
 
         url = args.source
         url = cls.getDefaultSourceUrl() if url is None else url
-
-        print("\nParsing Source: %s\n" % url)
-
         html = Scraper(url).get()
         data = HackernewsParser(html, filters)
         title = data.getTitle()
         candidates = data.getCandidates()
 
-        print(json.dumps(candidates, indent=4, sort_keys=True))
-
-        print("Parsed Source: %s\n" % title)
+        print("%s\n" % json.dumps(candidates, indent=4, sort_keys=True))
+        print("Source Title: %s" % title)
+        print("Source URL: %s" % url)
         print("Total Matches Found: %s" % len(candidates))
 
     @staticmethod
