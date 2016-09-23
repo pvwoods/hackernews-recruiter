@@ -39,9 +39,9 @@ class CLI(object):
         title = data.getTitle()
         candidates = data.getCandidates()
 
-        candidate_json_string = json.dumps(candidates, indent=4, sort_keys=True)
+        print(json.dumps(candidates, indent=4, sort_keys=True))
 
-        print("Parsed Source:\n%s\n" % candidate_json_string)
+        print("Parsed Source: %s\n" % title)
         print("Total Matches Found: %s" % len(candidates))
 
     @staticmethod
